@@ -13,7 +13,7 @@ check-mypy:
 .PHONY: check-flake
 check-flake:
 	@echo "Checking coding style..."
-	@flake8 --config .config/flake ./
+	@flake8 --config .config/flake ./thsr_ticket
 
 .PHONY: test
 test:

@@ -131,7 +131,6 @@ class BookingFlow:
         img_resp = self.client.request_security_code_img(resp.content)
         image = Image.open(io.BytesIO(img_resp.content))
         print("輸入驗證碼:")
-        #image.show()
         img_arr = np.array(image)
         plt.imshow(img_arr)
         plt.show()

@@ -1,8 +1,8 @@
 import io
 from PIL import Image
 from requests.models import Response
-import matplotlib.pyplot as plt
-import numpy as np
+import matplotlib.pyplot as plt  # type: ignore
+import numpy as np  # type: ignore
 
 from thsr_ticket.remote.http_request import HTTPRequest
 from thsr_ticket.model.web.booking_form.booking_form import BookingForm

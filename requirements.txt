@@ -1,5 +1,6 @@
 mypy>=0.76
 flake8>=3.7.9
+pytest>=5.3.5
 requests>=2.21
 pillow>=7.0
 jsonschema>=3.0.1

@@ -18,4 +18,4 @@ check-flake:
 .PHONY: test
 test:
 	@echo "Run unit tests"
-	@pytest ./unittest
+	@python -m pytest ./thsr_ticket/unittest

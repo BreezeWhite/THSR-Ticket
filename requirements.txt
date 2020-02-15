@@ -1,0 +1,9 @@
+mypy>=0.76
+flake8>=3.7.9
+requests>=2.21
+pillow>=7.0
+jsonschema>=3.0.1
+beautifulsoup4>=4.8.2
+tinydb>=3.15.2
+matplotlib
+numpy

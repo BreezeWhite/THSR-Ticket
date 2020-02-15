@@ -1,0 +1,8 @@
+__pycache__
+test.py
+.mypy_cache/
+.db/
+.venv/
+
+*.png
+thsr_workspace.code-workspace

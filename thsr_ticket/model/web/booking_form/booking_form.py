@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
-from jsonschema import validate
 from typing import Mapping, Any
+
+from jsonschema import validate
 
 from thsr_ticket.model.web.abstract_params import AbstractParams
 from thsr_ticket.configs.web.param_schema import BOOKING_SCHEMA
@@ -23,6 +24,7 @@ class BookingForm(AbstractParams):
             11: Tainan
             12: Zuoying
         """
+        super(BookingForm, self).__init__()
         self._start_station: int = None  # Required
         self._dest_station: int = None  # Required
         self._class_type: int = 0

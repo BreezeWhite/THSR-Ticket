@@ -5,9 +5,6 @@ from thsr_ticket.view_model.avail_trains import Train
 
 
 class ShowAvailTrains(AbstractShow):
-    def __init__(self) -> None:
-        pass
-
     def show(self, trains: List[Train], select: bool = True) -> int:
         if len(trains) == 0:
             print("No available train!")

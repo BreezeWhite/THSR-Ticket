@@ -1,7 +1,8 @@
+from typing import Mapping, Any
 import requests
 from requests.adapters import HTTPAdapter
 from requests.models import Response
-from typing import Mapping, Any
+
 
 from thsr_ticket.configs.web.http_config import HTTPConfig
 

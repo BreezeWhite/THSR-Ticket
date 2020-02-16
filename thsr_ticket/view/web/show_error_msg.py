@@ -5,9 +5,6 @@ from thsr_ticket.view_model.error_feedback import Error
 
 
 class ShowErrorMsg(AbstractShow):
-    def __init__(self) -> None:
-        pass
-
     def show(self, errors: List[Error], select: bool = False) -> int:
         for e in errors:
             print("錯誤: {}".format(e.msg))

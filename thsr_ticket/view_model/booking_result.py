@@ -9,12 +9,12 @@ from thsr_ticket.configs.web.parse_html_element import BOOKING_RESULT
 Ticket = namedtuple("Ticket", [
         "id", "price", "start_station", "dest_station", "train_id", "depart_time", "arrival_time",
         "date", "seat", "seat_class", "payment_deadline", "ticket_num_info"
-    ]
-)
+])
 
 
 class BookingResult(AbstractViewModel):
     def __init__(self) -> None:
+        super(BookingResult, self).__init__()
         self.ticket: Ticket = None
 
     def parse(self, html: bytes) -> List[Ticket]:

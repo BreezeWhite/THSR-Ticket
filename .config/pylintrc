@@ -1,0 +1,17 @@
+[MASTER]
+# https://gist.github.com/sblask/7302860
+
+ignore=main.py,json,rest,configs
+
+[MESSAGES CONTROL]
+disable=C0114,C0115,C0116,R0201,W0221
+
+[BASIC]
+good-names=i,j,k,it,_,e,t,r,c,db,h
+
+[DESIGN]
+min-public-methods=1
+max-attributes=20
+
+[FORMAT]
+max-line-length=120

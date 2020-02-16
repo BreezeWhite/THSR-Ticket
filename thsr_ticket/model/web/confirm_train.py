@@ -7,6 +7,7 @@ from thsr_ticket.configs.web.param_schema import CONFIRM_TRAIN_SCHEMA
 
 class ConfirmTrain(AbstractParams):
     def __init__(self) -> None:
+        super(ConfirmTrain, self).__init__()
         self._selection: str = None
 
     def get_params(self, val: bool = True) -> Mapping[str, Any]:

@@ -27,14 +27,15 @@ def test_get_params():
     expected = {
         "BookingS3FormSP:hf:0": "",
         "diffOver": 1,
-        "idInputRadio": "radio33",
+        "idInputRadio": "radio36",
         "idInputRadio:idNumber": "A186902624",
-        "eaiPhoneCon:phoneInputRadio": "radio40",
+        "eaiPhoneCon:phoneInputRadio": "radio43",
         "eaiPhoneCon:phoneInputRadio:mobilePhone": "0945789123",
         "email": "",
         "agree": "on",
         "isGoBackM": "",
-        "backHome": ""
+        "backHome": "",
+        "TgoError": "1"
     }
 
     with pytest.raises(AttributeError):

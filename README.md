@@ -2,7 +2,7 @@
 
 
 
-![](https://github.com/BreezeWhite/THSR-Ticket/workflows/build/badge.svg?branch=dev)
+![](https://github.com/BreezeWhite/THSR-Ticket/workflows/build/badge.svg)
 
 **!!--純研究用途，請勿用於不當用途--!!**
 

@@ -1,6 +1,7 @@
 [MASTER]
 # https://gist.github.com/sblask/7302860
 
+init-hook='import sys; sys.path.append("./")'
 ignore=main.py,json,rest,configs
 
 [MESSAGES CONTROL]

@@ -1,7 +1,7 @@
 
 class HTTPConfig:
+    BASE_URL = "https://irs.thsrc.com.tw"
     BOOKING_PAGE_URL = "https://irs.thsrc.com.tw/IMINT/?locale=tw"
-    SECURE_CODE_URL = "https://irs.thsrc.com.tw/IMINT/?wicket:interface=:0:BookingS1Form:homeCaptcha:passCode::IResourceListener&wicket:antiCache=1579440790196"
     SUBMIT_FORM_URL = "https://irs.thsrc.com.tw/IMINT/;jsessionid={}?wicket:interface=:0:BookingS1Form::IFormSubmitListener"
     CONFIRM_TRAIN_URL = "https://irs.thsrc.com.tw/IMINT/?wicket:interface=:1:BookingS2Form::IFormSubmitListener"
     CONFIRM_TICKET_URL = "https://irs.thsrc.com.tw/IMINT/?wicket:interface=:2:BookingS3Form::IFormSubmitListener"

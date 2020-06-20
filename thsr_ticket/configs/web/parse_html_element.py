@@ -1,5 +1,12 @@
 from typing import Mapping, Any
 
+
+BOOKING_PAGE: Mapping[str, Any] = {
+    "security_code_img": {
+        "id": "BookingS1Form_homeCaptcha_passCode"
+    }
+}
+
 ERROR_FEEDBACK: Mapping[str, Any] = {
     "name": "span",
     "attrs": {

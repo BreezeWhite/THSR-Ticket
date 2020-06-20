@@ -1,10 +1,12 @@
 from typing import Mapping, Any
+
 import requests
 from requests.adapters import HTTPAdapter
 from requests.models import Response
-
+from bs4 import BeautifulSoup
 
 from thsr_ticket.configs.web.http_config import HTTPConfig
+from thsr_ticket.configs.web.parse_html_element import BOOKING_PAGE
 
 
 class HTTPRequest:
@@ -24,22 +26,12 @@ class HTTPRequest:
         return self.sess.get(HTTPConfig.BOOKING_PAGE_URL, headers=self.common_head_html, allow_redirects=True)
 
     def request_security_code_img(self, book_page: bytes) -> Response:
-        accept_img_head = self.common_head_html.copy()
-        accept_img_head["Accept"] = "image/webp,*/*"
-        param = {
-            "wicket:interface": ":0:BookingS1Form:homeCaptcha:passCode::IResourceListener",
-            "wicket:antiCache": self._parse_anti_cache(book_page.decode("UTF-8"))
-        }
-        return self.sess.get(HTTPConfig.SECURE_CODE_URL, headers=accept_img_head, params=param)
+        img_url = parse_security_img_url(book_page)
+        return self.sess.get(img_url, headers=self.common_head_html)
 
     def submit_booking_form(self, params: Mapping[str, Any]) -> Response:
         url = HTTPConfig.SUBMIT_FORM_URL.format(self.sess.cookies["JSESSIONID"])
         return self.sess.post(url, headers=self.common_head_html, params=params, allow_redirects=True)
-
-    def _parse_anti_cache(self, html: str, keyword: str = "wicket:antiCache") -> str:
-        start_idx = len(keyword)+html.find(keyword)+1
-        end_idx = start_idx+html[start_idx:].find('">')
-        return html[start_idx:end_idx]
 
     def submit_train(self, params: Mapping[str, Any]) -> Response:
         return self.sess.post(
@@ -56,3 +48,9 @@ class HTTPRequest:
             params=params,
             allow_redirects=True
         )
+
+
+def parse_security_img_url(html: bytes) -> str:
+    page = BeautifulSoup(html, features="html.parser")
+    element = page.find(**BOOKING_PAGE["security_code_img"])
+    return HTTPConfig.BASE_URL + element["src"]

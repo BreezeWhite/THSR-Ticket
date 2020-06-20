@@ -127,8 +127,8 @@ class BookingFlow:
 
     def input_security_code(self) -> str:
         print("等待驗證碼...")
-        resp = self.client.request_booking_page()
-        img_resp = self.client.request_security_code_img(resp.content)
+        book_page = self.client.request_booking_page()
+        img_resp = self.client.request_security_code_img(book_page.content)
         image = Image.open(io.BytesIO(img_resp.content))
         print("輸入驗證碼:")
         img_arr = np.array(image)

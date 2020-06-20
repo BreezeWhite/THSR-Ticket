@@ -1,6 +1,7 @@
 __pycache__
 test.py
 .mypy_cache/
+.pytest_cache/
 .db/
 .venv/
 

@@ -14,14 +14,15 @@ class ConfirmTicket(AbstractParams):
         params = {
             "BookingS3FormSP:hf:0": "",
             "diffOver": 1,
-            "idInputRadio": "radio33",
+            "idInputRadio": "radio36",
             "idInputRadio:idNumber": self._personal_id,
-            "eaiPhoneCon:phoneInputRadio": "radio40",
+            "eaiPhoneCon:phoneInputRadio": "radio43",
             "eaiPhoneCon:phoneInputRadio:mobilePhone": self._phone,
             "email": "",
             "agree": "on",
             "isGoBackM": "",
-            "backHome": ""
+            "backHome": "",
+            "TgoError": "1"
         }
 
         if val:

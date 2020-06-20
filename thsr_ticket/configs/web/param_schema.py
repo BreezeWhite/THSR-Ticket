@@ -99,7 +99,8 @@ CONFIRM_TICKET_SHEMA: Mapping[str, Any] = {
         "email": {"type": "string"},
         "agree": {"type": "string", "enum": ["on", ""]},
         "isGoBackM": {"type": "string"},
-        "backHome": {"type": "string"}
+        "backHome": {"type": "string"},
+        "TgoError": {"type": "string"}
     },
     "required": ["agree", "idInputRadio:idNumber"],
     "additionalProperties": False

@@ -1,9 +1,12 @@
 __pycache__
-test.py
 .mypy_cache/
 .pytest_cache/
 .db/
 .venv/
+build/
+dist/
+*.egg-info/
 
 *.png
-thsr_workspace.code-workspace
+test.py
+*.code-workspace

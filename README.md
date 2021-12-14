@@ -12,6 +12,16 @@
 
 本程式由python語言所寫成，因此必須先安裝python才能夠使用。官方下載網址[點這裡](https://www.python.org/downloads/release/python-381/)
 
+### 方法一 （快速）
+在已經有安裝好python的環境下，執行以下指令
+``` bash
+pip install git+https://github.com/BreezeWhite/THSR-Ticket.git
+
+# 執行
+thsr-ticket
+```
+
+### 方法二
 首先先將程式碼下載到本機，執行以下指令或是直接按右上方的下載按鈕
 
 ```
@@ -35,6 +45,8 @@ python -m pip install -r requirements.txt
 ```
 python thsr_ticket/main.py
 ```
+
+
 
 ## 注意事項!!!
 

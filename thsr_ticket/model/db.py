@@ -4,6 +4,7 @@ from typing import Mapping, List, Iterable, Any, NamedTuple
 from tinydb import TinyDB, Query
 from tinydb.database import Document
 
+from thsr_ticket import MODULE_PATH
 from thsr_ticket.model.web.booking_form.booking_form import BookingForm
 from thsr_ticket.model.web.confirm_ticket import ConfirmTicket
 
@@ -18,7 +19,9 @@ class Record(NamedTuple):
 
 
 class ParamDB:
-    def __init__(self, db_path: str = "./.db/history.json"):
+    def __init__(self, db_path: str = None):
+        if db_path is None:
+            db_path = os.path.join(MODULE_PATH, ".db", "history.json")
         self.db_path = db_path
         db_dir = db_path[:db_path.rfind("/")]
         if not os.path.exists(db_dir):

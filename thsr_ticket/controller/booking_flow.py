@@ -2,8 +2,6 @@ import io
 from PIL import Image
 
 from requests.models import Response
-import matplotlib.pyplot as plt  # type: ignore
-import numpy as np  # type: ignore
 from bs4 import BeautifulSoup
 
 from thsr_ticket.remote.http_request import HTTPRequest

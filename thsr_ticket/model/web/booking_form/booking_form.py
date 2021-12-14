@@ -28,7 +28,6 @@ class BookingForm(AbstractParams):
         self._start_station: int = None  # Required
         self._dest_station: int = None  # Required
         self._class_type: int = 0
-        self._seat_prefer: str = "radio17"
         self._search_by: int = 0
         self._outbound_date: str = None  # Required
         self._outbound_time: str = None  # Required
@@ -41,27 +40,30 @@ class BookingForm(AbstractParams):
         self._college_ticket_num: str = "0P"
         self.security_code: str = None  # Required
 
+        # Auto set
+        self.seat_prefer: str = None
+
     def get_params(self, val: bool = True) -> Mapping[str, Any]:
-        if self._inbound_date is None:
-            self._inbound_date = self.outbound_date
+        if self.inbound_date is None:
+            self.inbound_date = self.outbound_date
         params = {
             "BookingS1Form:hf:0": "",
-            "selectStartStation": self._start_station,
-            "selectDestinationStation": self._dest_station,
-            "trainCon:trainRadioGroup": self._class_type,
-            "seatCon:seatRadioGroup": self._seat_prefer,
-            "bookingMethod": self._search_by,
-            "toTimeInputField": self._outbound_date,
-            "toTimeTable": self._outbound_time,
+            "selectStartStation": self.start_station,
+            "selectDestinationStation": self.dest_station,
+            "trainCon:trainRadioGroup": self.class_type,
+            "seatCon:seatRadioGroup": self.seat_prefer,
+            "bookingMethod": self.search_by,
+            "toTimeInputField": self.outbound_date,
+            "toTimeTable": self.outbound_time,
             "toTrainIDInputField": 0,
-            "backTimeInputField": self._inbound_date,
-            "backTimeTable": self._inbound_time,
+            "backTimeInputField": self.inbound_date,
+            "backTimeTable": self.inbound_time,
             "backTrainIDInputField": "",
-            "ticketPanel:rows:0:ticketAmount": self._adult_ticket_num,
-            "ticketPanel:rows:1:ticketAmount": self._child_ticket_num,
-            "ticketPanel:rows:2:ticketAmount": self._disabled_ticket_num,
-            "ticketPanel:rows:3:ticketAmount": self._elder_ticket_num,
-            "ticketPanel:rows:4:ticketAmount": self._college_ticket_num,
+            "ticketPanel:rows:0:ticketAmount": self.adult_ticket_num,
+            "ticketPanel:rows:1:ticketAmount": self.child_ticket_num,
+            "ticketPanel:rows:2:ticketAmount": self.disabled_ticket_num,
+            "ticketPanel:rows:3:ticketAmount": self.elder_ticket_num,
+            "ticketPanel:rows:4:ticketAmount": self.college_ticket_num,
             "homeCaptcha:securityCode": self.security_code
         }
 
@@ -95,15 +97,6 @@ class BookingForm(AbstractParams):
     def class_type(self, value: int) -> None:
         self._validate_value("trainCon:trainRadioGroup", value)
         self._class_type = value
-
-    @property
-    def seat_prefer(self) -> str:
-        return self._seat_prefer
-
-    @seat_prefer.setter
-    def seat_prefer(self, value: str) -> None:
-        self._validate_value("seatCon:seatRadioGroup", value)
-        self._seat_prefer = value
 
     @property
     def search_by(self) -> int:

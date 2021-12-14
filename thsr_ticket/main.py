@@ -6,10 +6,14 @@ from thsr_ticket.model.json.v1.train import Train
 from thsr_ticket.controller.booking_flow import BookingFlow
 
 
+def main():
+    flow = BookingFlow()
+    flow.run()
+
+
 if __name__ == "__main__":
     #client = EndpointClient()
     #resp = client.get_trains_by_date("2020-01-25")
     #train = Train().from_json(resp[0])
 
-    flow = BookingFlow()
-    result = flow.run()
+    main()

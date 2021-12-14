@@ -4,6 +4,9 @@ from typing import Mapping, Any
 BOOKING_PAGE: Mapping[str, Any] = {
     "security_code_img": {
         "id": "BookingS1Form_homeCaptcha_passCode"
+    },
+    "seat_prefer_radio": {
+        "id": "seatRadio0"
     }
 }
 
@@ -11,6 +14,15 @@ ERROR_FEEDBACK: Mapping[str, Any] = {
     "name": "span",
     "attrs": {
         "class": "feedbackPanelERROR"
+    }
+}
+
+TICKET_CONFIRMATION: Mapping[str, Any] = {
+    "id_input_radio": {
+        "id": "idInputRadio1"
+    },
+    "mobile_input_radio": {
+        "id": "mobileInputRadio"
     }
 }
 

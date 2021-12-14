@@ -6,18 +6,23 @@ from thsr_ticket.configs.web.param_schema import CONFIRM_TICKET_SHEMA
 
 
 class ConfirmTicket(AbstractParams):
-    def __init_(self) -> None:
+    def __init__(self) -> None:
+        # User input
         self._personal_id: str = None
         self._phone: str = ""
+
+        # Parse from the page
+        self.id_radio_value: str = None
+        self.phone_radio_value: str = None
 
     def get_params(self, val: bool = True) -> Mapping[str, Any]:
         params = {
             "BookingS3FormSP:hf:0": "",
             "diffOver": 1,
-            "idInputRadio": "radio36",
-            "idInputRadio:idNumber": self._personal_id,
-            "eaiPhoneCon:phoneInputRadio": "radio43",
-            "eaiPhoneCon:phoneInputRadio:mobilePhone": self._phone,
+            "idInputRadio": self.id_radio_value,
+            "idInputRadio:idNumber": self.personal_id,
+            "eaiPhoneCon:phoneInputRadio": self.phone_radio_value,
+            "eaiPhoneCon:phoneInputRadio:mobilePhone": self.phone,
             "email": "",
             "agree": "on",
             "isGoBackM": "",

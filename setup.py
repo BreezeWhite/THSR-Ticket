@@ -7,8 +7,9 @@ setup(
     name='thsr_ticket',
     version='0.1',
     description='An automatic booking program for Taiwan High Speed Railway(THSR).',
-    author='breezewhite',
-    author_email='freedombluewater@gmail.com',
+    author='BreezeWhite',
+    author_email='miyashita2010@tuta.io',
     packages=find_packages(),
-    install_requires=requirements
+    install_requires=requirements,
+    entry_points={'console_scripts': ['thsr = thsr_ticket.main:main']}
 )

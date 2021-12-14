@@ -13,7 +13,7 @@ class ConfirmTrain(AbstractParams):
     def get_params(self, val: bool = True) -> Mapping[str, Any]:
         params = {
             "BookingS2Form:hf:0": "",
-            "TrainQueryDataViewPanel:TrainGroup": self._selection
+            "TrainQueryDataViewPanel:TrainGroup": self.selection
         }
 
         if val:

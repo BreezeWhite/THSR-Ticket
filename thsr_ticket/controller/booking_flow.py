@@ -1,8 +1,10 @@
 import io
 from PIL import Image
+
 from requests.models import Response
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
+from bs4 import BeautifulSoup
 
 from thsr_ticket.remote.http_request import HTTPRequest
 from thsr_ticket.model.web.booking_form.booking_form import BookingForm
@@ -19,6 +21,7 @@ from thsr_ticket.view.web.confirm_ticket_info import ConfirmTicketInfo
 from thsr_ticket.view.web.show_booking_result import ShowBookingResult
 from thsr_ticket.view.common import history_info
 from thsr_ticket.model.db import ParamDB, Record
+from thsr_ticket.configs.web.parse_html_element import BOOKING_PAGE, TICKET_CONFIRMATION
 
 
 class BookingFlow:
@@ -49,7 +52,10 @@ class BookingFlow:
         self.book_form.outbound_date = self.book_info.date_info("出發")
         self.set_outbound_time()
         self.set_adult_ticket_num()
-        self.book_form.security_code = self.input_security_code()
+        print("等待驗證碼...")
+        book_page = self.client.request_booking_page().content
+        self.book_form.seat_prefer = parse_seat_prefer_value(book_page)
+        self.book_form.security_code = self.input_security_code(book_page)
 
         form_params = self.book_form.get_params()
         result = self.client.submit_booking_form(form_params)
@@ -62,13 +68,15 @@ class BookingFlow:
         value = avail_trains[sel-1].form_value  # Selection from UI count from 1
         self.confirm_train.selection = value
         confirm_params = self.confirm_train.get_params()
-        result = self.client.submit_train(confirm_params)
-        if self.show_error(result.content):
+        result = self.client.submit_train(confirm_params).content
+        if self.show_error(result):
             return result
 
         # Third page. Ticket confirmation
         self.set_personal_id()
         self.set_phone()
+        self.confirm_ticket.id_radio_value = parse_person_id_radio_value(result)
+        self.confirm_ticket.phone_radio_value = parse_mobile_radio_value(result)
         ticket_params = self.confirm_ticket.get_params()
         result = self.client.submit_ticket(ticket_params)
         if self.show_error(result.content):
@@ -125,15 +133,14 @@ class BookingFlow:
         else:
             self.confirm_ticket.phone = self.confirm_ticket_info.phone_info()
 
-    def input_security_code(self) -> str:
-        print("等待驗證碼...")
-        book_page = self.client.request_booking_page()
-        img_resp = self.client.request_security_code_img(book_page.content)
+    def input_security_code(self, book_page: bytes) -> str:
+        img_resp = self.client.request_security_code_img(book_page)
         image = Image.open(io.BytesIO(img_resp.content))
         print("輸入驗證碼:")
-        img_arr = np.array(image)
-        plt.imshow(img_arr)
-        plt.show()
+        image.show()
+        # img_arr = np.array(image)
+        # plt.imshow(img_arr)
+        # plt.show()
         return input()
 
     def show_error(self, html: bytes) -> bool:
@@ -143,3 +150,18 @@ class BookingFlow:
 
         self.show_error_msg.show(errors)
         return True
+
+
+def parse_seat_prefer_value(html: bytes) -> str:
+    page = BeautifulSoup(html, features="html.parser")
+    return page.find(**BOOKING_PAGE["seat_prefer_radio"]).attrs['value']
+
+
+def parse_mobile_radio_value(html: bytes) -> str:
+    page = BeautifulSoup(html, features="html.parser")
+    return page.find(**TICKET_CONFIRMATION["mobile_input_radio"]).attrs['value']
+
+
+def parse_person_id_radio_value(html: bytes) -> str:
+    page = BeautifulSoup(html, features="html.parser")
+    return page.find(**TICKET_CONFIRMATION["id_input_radio"]).attrs['value']

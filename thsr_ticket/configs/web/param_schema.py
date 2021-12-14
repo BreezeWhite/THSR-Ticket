@@ -17,8 +17,7 @@ BOOKING_SCHEMA: Mapping[str, Any] = {
             "enum": [0, 1]  # Standard car / Business car
         },
         "seatCon:seatRadioGroup": {
-            "type": "string",  # Seat perference
-            "enum": ["radio17", "radio19", "radio21"]  # None / Window seat / Aisle seat
+            "type": "string",  # Seat perference (None / Window seat / Aisle seat)
         },
         "bookingMethod": {
             "type": "integer",  # Search seat by...

@@ -7,5 +7,3 @@ pillow>=7.0
 jsonschema>=3.0.1
 beautifulsoup4>=4.8.2
 tinydb>=3.15.2
-matplotlib
-numpy

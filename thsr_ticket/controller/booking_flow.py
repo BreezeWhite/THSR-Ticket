@@ -52,7 +52,10 @@ class BookingFlow:
         self.set_adult_ticket_num()
         print("等待驗證碼...")
         book_page = self.client.request_booking_page().content
-        self.book_form.seat_prefer = parse_seat_prefer_value(book_page)
+        page = BeautifulSoup(book_page, features="html.parser")
+        self.book_form.seat_prefer = parse_seat_prefer_value(page)
+        self.book_form.types_of_trip = parse_types_of_trip_value(page)
+        self.book_form.search_by = parse_search_by(page)
         self.book_form.security_code = self.input_security_code(book_page)
 
         form_params = self.book_form.get_params()
@@ -73,8 +76,8 @@ class BookingFlow:
         # Third page. Ticket confirmation
         self.set_personal_id()
         self.set_phone()
-        self.confirm_ticket.id_radio_value = parse_person_id_radio_value(result)
-        self.confirm_ticket.phone_radio_value = parse_mobile_radio_value(result)
+        page = BeautifulSoup(result, features="html.parser")
+        self.confirm_ticket.member_radio = parse_member_radio(page)
         ticket_params = self.confirm_ticket.get_params()
         result = self.client.submit_ticket(ticket_params)
         if self.show_error(result.content):
@@ -150,16 +153,30 @@ class BookingFlow:
         return True
 
 
-def parse_seat_prefer_value(html: bytes) -> str:
-    page = BeautifulSoup(html, features="html.parser")
-    return page.find(**BOOKING_PAGE["seat_prefer_radio"]).attrs['value']
+def parse_seat_prefer_value(page: BeautifulSoup) -> str:
+    options = page.find(**BOOKING_PAGE["seat_prefer_radio"])
+    preferred_seat = options.find_next(selected='selected')
+    return preferred_seat.attrs['value']
 
 
-def parse_mobile_radio_value(html: bytes) -> str:
-    page = BeautifulSoup(html, features="html.parser")
-    return page.find(**TICKET_CONFIRMATION["mobile_input_radio"]).attrs['value']
+def parse_types_of_trip_value(page: BeautifulSoup) -> int:
+    options = page.find(**BOOKING_PAGE["types_of_trip"])
+    tag = options.find_next(selected='selected')
+    return int(tag.attrs['value'])
 
 
-def parse_person_id_radio_value(html: bytes) -> str:
-    page = BeautifulSoup(html, features="html.parser")
-    return page.find(**TICKET_CONFIRMATION["id_input_radio"]).attrs['value']
+def parse_search_by(page: BeautifulSoup) -> str:
+    candidates = page.find_all('input', {'name': 'bookingMethod'})
+    tag = next((cand for cand in candidates if 'checked' in cand.attrs))
+    return tag.attrs['value']
+
+
+def parse_member_radio(page: BeautifulSoup) -> str:
+    candidates = page.find_all(
+        'input',
+        attrs={
+            'name': 'TicketMemberSystemInputPanel:TakerMemberSystemDataView:memberSystemRadioGroup'
+        },
+    )
+    tag = next((cand for cand in candidates if 'checked' in cand.attrs))
+    return tag.attrs['value']

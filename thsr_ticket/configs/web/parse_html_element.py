@@ -6,7 +6,10 @@ BOOKING_PAGE: Mapping[str, Any] = {
         "id": "BookingS1Form_homeCaptcha_passCode"
     },
     "seat_prefer_radio": {
-        "id": "seatRadio0"
+        "id": "BookingS1Form_seatCon_seatRadioGroup"
+    },
+    "types_of_trip": {
+        "id": "BookingS1Form_tripCon_typesoftrip"
     }
 }
 
@@ -28,10 +31,12 @@ TICKET_CONFIRMATION: Mapping[str, Any] = {
 
 BOOKING_RESULT: Mapping[str, Any] = {
     "ticket_id": {
-        "text": "訂位代號"
+        "name": "p",
+        "attrs": {"class": "pnr-code"}
     },
     "payment_deadline": {
-        "text": "（付款期限："
+        "name": "p",
+        "attrs": {"class": "payment-status"}
     },
     "phone": {
         "text": "行動電話"
@@ -45,18 +50,45 @@ BOOKING_RESULT: Mapping[str, Any] = {
     "outbound_info": {
         "text": "去程"
     },
-    "info_order": [
-        "date", "train_id", "start_station", "dest_station", "depart_time", 
-        "arrival_time", "price", "seat"
-    ],
     "seat_class": {
-        "name": "span",
-        "attrs": {
-            "class": "PR20"
-        }
+        "text": "車廂",
     },
     "ticket_num": {
-        "name": "strong",
-        "text": "票數："
+        "name": "p",
+        "text": "票數"
+    },
+    "total_price": {
+        "id": "setTrainTotalPriceValue"
+    },
+    "train_id": {
+        "id": "setTrainCode0"
+    },
+    "depart_time": {
+        "id": "setTrainDeparture0"
+    },
+    "arrival_time": {
+        "id": "setTrainArrival0"
+    },
+    "seat_num": {
+        "name": "div",
+        "attrs": {
+            "class": "seat-label"
+        }
+    },
+    "depart_station": {
+        "name": "p",
+        "attrs": {
+            "class": "departure-stn"
+        }
+    },
+    "arrival_station": {
+        "name": "p",
+        "attrs": {
+            "class": "arrival-stn"
+        }
+    },
+    "date": {
+        "name": "span",
+        "attrs": {"class": "date"}
     }
 }

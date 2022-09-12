@@ -16,13 +16,14 @@ BOOKING_SCHEMA: Mapping[str, Any] = {
             "type": "integer",  # Class
             "enum": [0, 1]  # Standard car / Business car
         },
+        "tripCon:typesoftrip": {
+            "type": "integer",
+            "enum": [0, 1]  # single trip / round trip
+        },
         "seatCon:seatRadioGroup": {
             "type": "string",  # Seat perference (None / Window seat / Aisle seat)
         },
-        "bookingMethod": {
-            "type": "integer",  # Search seat by...
-            "enum": [0, 1]  # Depart,Arrival time / Train No.
-        },
+        "bookingMethod": {"type": "string", "pattern": "radio[0-9]+"},  # Search seat by train ID or time.
         "toTimeInputField": {"type": "string"},  # format: yyyy/mm/dd
         "toTimeTable": {
             "type": "string",
@@ -34,7 +35,7 @@ BOOKING_SCHEMA: Mapping[str, Any] = {
                 "1100P", "1130P"
             ]
         },
-        "toTrainIDInputField": {"type": "integer"},
+        "toTrainIDInputField": {"type": "string"},
         "backTimeInputField": {"type": "string"},
         "backTimeTable": {
             "type": "string",
@@ -67,7 +68,7 @@ BOOKING_SCHEMA: Mapping[str, Any] = {
             "type": "string",   # College student ticket (Taiwan only)
             "enum": ["0P", "1P", "2P", "3P", "4P", "5P", "6P", "7P", "8P", "9P", "10P"]
         },
-        "homeCaptcha:securityCode": {"type": "string"}
+        "homeCaptcha:securityCode": {"type": "string"},
     },
     "required": [
         "selectStartStation", "selectDestinationStation", "toTimeTable",
@@ -91,16 +92,16 @@ CONFIRM_TICKET_SHEMA: Mapping[str, Any] = {
     "properties": {
         "BookingS3FormSP:hf:0": {"type": "string"},
         "diffOver": {"type": "integer"},
-        "idInputRadio": {"type": "string"},
-        "idInputRadio:idNumber": {"type": "string"},
-        "eaiPhoneCon:phoneInputRadio": {"type": "string"},
-        "eaiPhoneCon:phoneInputRadio:mobilePhone": {"type": "string"},
+        "idInputRadio": {"type": "integer"},
+        "dummyId": {"type": "string"},
+        "dummyPhone": {"type": "string"},
         "email": {"type": "string"},
         "agree": {"type": "string", "enum": ["on", ""]},
         "isGoBackM": {"type": "string"},
         "backHome": {"type": "string"},
-        "TgoError": {"type": "string"}
+        "TgoError": {"type": "string"},
+        "TicketMemberSystemInputPanel:TakerMemberSystemDataView:memberSystemRadioGroup": {"type": "string"},
     },
-    "required": ["agree", "idInputRadio:idNumber"],
+    "required": ["agree", "dummyId"],
     "additionalProperties": False
 }

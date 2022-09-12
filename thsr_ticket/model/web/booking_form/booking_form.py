@@ -28,10 +28,11 @@ class BookingForm(AbstractParams):
         self._start_station: int = None  # Required
         self._dest_station: int = None  # Required
         self._class_type: int = 0
-        self._search_by: int = 0
+        self._search_by: str = None  # Required
+        self._types_of_trip: int = 0
         self._outbound_date: str = None  # Required
         self._outbound_time: str = None  # Required
-        self._inbound_date: str = ""
+        self._inbound_date: str = None
         self._inbound_time: str = ""
         self._adult_ticket_num: str = "1F"
         self._child_ticket_num: str = "0H"
@@ -51,11 +52,12 @@ class BookingForm(AbstractParams):
             "selectStartStation": self.start_station,
             "selectDestinationStation": self.dest_station,
             "trainCon:trainRadioGroup": self.class_type,
+            "tripCon:typesoftrip": self.types_of_trip,
             "seatCon:seatRadioGroup": self.seat_prefer,
             "bookingMethod": self.search_by,
             "toTimeInputField": self.outbound_date,
             "toTimeTable": self.outbound_time,
-            "toTrainIDInputField": 0,
+            "toTrainIDInputField": "",
             "backTimeInputField": self.inbound_date,
             "backTimeTable": self.inbound_time,
             "backTrainIDInputField": "",
@@ -64,7 +66,7 @@ class BookingForm(AbstractParams):
             "ticketPanel:rows:2:ticketAmount": self.disabled_ticket_num,
             "ticketPanel:rows:3:ticketAmount": self.elder_ticket_num,
             "ticketPanel:rows:4:ticketAmount": self.college_ticket_num,
-            "homeCaptcha:securityCode": self.security_code
+            "homeCaptcha:securityCode": self.security_code,
         }
 
         if val:
@@ -88,6 +90,15 @@ class BookingForm(AbstractParams):
     def dest_station(self, value: int) -> None:
         self._validate_value("selectDestinationStation", value)
         self._dest_station = value
+
+    @property
+    def types_of_trip(self) -> int:
+        return self._types_of_trip
+
+    @types_of_trip.setter
+    def types_of_trip(self, value: int) -> None:
+        self._validate_value('tripCon:typesoftrip', value)
+        self._types_of_trip = value
 
     @property
     def class_type(self) -> int:
@@ -199,5 +210,8 @@ class BookingForm(AbstractParams):
         return datetime.strptime(value, '%Y/%m/%d')
 
     def _validate_value(self, proper: str, value: Any) -> None:
-        if value not in BOOKING_SCHEMA["properties"][proper]["enum"]:
+        if (
+            (enums := BOOKING_SCHEMA["properties"][proper].get('enum'))
+            and value not in enums
+        ):
             raise ValueError("Value '{}' is not allowed for this attribute '{}'".format(value, proper))

@@ -2,7 +2,7 @@
 class ParseAvailTrain:
     from_html = {
         "attrs": {
-            "onmouseout": "this.bgColor='#FFFFFF'"
+            "class": "result-item"
         }
     }
 
@@ -16,6 +16,12 @@ class ParseAvailTrain:
 
     arrival = {
         "id": "QueryArrival"
+    }
+
+    duration = {
+        "attrs": {
+            "class": "duration"
+        }
     }
 
     discount_keyword = {

@@ -11,23 +11,22 @@ class ConfirmTicket(AbstractParams):
         self._personal_id: str = None
         self._phone: str = ""
 
-        # Parse from the page
-        self.id_radio_value: str = None
-        self.phone_radio_value: str = None
+        self.id_input_radio: int = 0
+        self.member_radio: str = None
 
     def get_params(self, val: bool = True) -> Mapping[str, Any]:
         params = {
             "BookingS3FormSP:hf:0": "",
             "diffOver": 1,
-            "idInputRadio": self.id_radio_value,
-            "idInputRadio:idNumber": self.personal_id,
-            "eaiPhoneCon:phoneInputRadio": self.phone_radio_value,
-            "eaiPhoneCon:phoneInputRadio:mobilePhone": self.phone,
+            "idInputRadio": self.id_input_radio,
+            "dummyId": self.personal_id,
+            "dummyPhone": self.phone,
             "email": "",
             "agree": "on",
             "isGoBackM": "",
             "backHome": "",
-            "TgoError": "1"
+            "TgoError": "1",
+            "TicketMemberSystemInputPanel:TakerMemberSystemDataView:memberSystemRadioGroup": self.member_radio,
         }
 
         if val:

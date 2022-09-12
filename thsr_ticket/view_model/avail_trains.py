@@ -16,7 +16,7 @@ class AvailTrains(AbstractViewModel):
 
     def parse(self, html: bytes) -> List[Train]:
         page = self._parser(html)
-        avail = page.find_all("tr", **self.cond.from_html)
+        avail = page.find_all("label", **self.cond.from_html)
         return self._parse_train(avail)
 
     def _parse_train(self, avail: List[Tag]) -> List[Train]:
@@ -24,7 +24,9 @@ class AvailTrains(AbstractViewModel):
             train_id = item.find(**self.cond.train_id).text
             depart_time = item.find(**self.cond.depart).text
             arrival_time = item.find(**self.cond.arrival).text
-            travel_time = item.find(**self.cond.arrival).parent.fetchNextSiblings()[0].text
+            travel_time = item.find(**self.cond.duration).find_next(
+                'span', {'class': 'material-icons'}
+            ).fetchNextSiblings()[0].text
             discount = self._parse_discount(item)
             form_value = item.find(**self.cond.form_value).attrs["value"]
             self.avail_trains.append(Train(

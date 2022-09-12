@@ -19,33 +19,34 @@ class BookingResult(AbstractViewModel):
 
     def parse(self, html: bytes) -> List[Ticket]:
         page = self._parser(html)
-        ticket = page.find(**BOOKING_RESULT["ticket_id"])
-        booking_id = ticket.find_next().find(name="span").text
-        deadline = page.find(**BOOKING_RESULT["payment_deadline"]).find_next().text
-        outbound_info = self.parse_booking_info(page)
-        seat_class = page.find(**BOOKING_RESULT["seat_class"]).text
-        ticket_num_info = self.parse_ticket_num(page)
+        booking_id = page.find(**BOOKING_RESULT["ticket_id"]).find("span").text
+        deadline = page.find(**BOOKING_RESULT["payment_deadline"]).find_next(text='（付款期限：').find_next().text
+        total_price = page.find(**BOOKING_RESULT["total_price"]).text
+        train_id = page.find(**BOOKING_RESULT["train_id"]).text
+        depart_time = page.find(**BOOKING_RESULT["depart_time"]).text
+        arrival_time = page.find(**BOOKING_RESULT["arrival_time"]).text
+        seat_num = page.find(**BOOKING_RESULT["seat_num"]).find_next().text
+        seat_class = page.find(**BOOKING_RESULT["seat_class"]).find_next().text
+        depart_station = page.find(**BOOKING_RESULT["depart_station"]).find_next().text
+        arrival_station = page.find(**BOOKING_RESULT["arrival_station"]).find_next().text
+        ticket_num_info = page.find(**BOOKING_RESULT["ticket_num"]).find_next().text
+        ticket_num_info = ticket_num_info.strip().replace('\xa0', ' ')
+        date = page.find(**BOOKING_RESULT["date"]).find_next().text
         self.ticket = Ticket(
             id=booking_id,
             payment_deadline=deadline,
             seat_class=seat_class,
             ticket_num_info=ticket_num_info,
-            **outbound_info
+            price=total_price,
+            train_id=train_id,
+            depart_time=depart_time,
+            arrival_time=arrival_time,
+            seat=seat_num,
+            start_station=depart_station,
+            dest_station=arrival_station,
+            date=date,
         )
         return [self.ticket]
-
-    def parse_booking_info(self, page: BeautifulSoup) -> Mapping[str, Any]:
-        table = page.find(**BOOKING_RESULT["info"])
-        outbound = table.find(**BOOKING_RESULT["outbound_info"])
-        outbound_info = {}
-        for key in BOOKING_RESULT["info_order"]:
-            outbound = outbound.find_next("span")
-            outbound_info[key] = outbound.text
-        rest_seat = outbound.find_next_siblings()
-        seat_str = "".join([outbound_info[key]]+[s.text for s in rest_seat])
-        outbound_info[key] = seat_str
-
-        return outbound_info
 
     def parse_ticket_num(self, page: BeautifulSoup) -> str:
         tags = page.find(**BOOKING_RESULT["ticket_num"]).find_next_siblings()

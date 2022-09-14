@@ -1,4 +1,3 @@
-
 import io
 import json
 from PIL import Image
@@ -30,7 +29,7 @@ class FirstPageFlow:
         print('請稍等...')
         book_page = self.client.request_booking_page().content
         img_resp = self.client.request_security_code_img(book_page).content
-        page = BeautifulSoup(book_page, features="html.parser")
+        page = BeautifulSoup(book_page, features='html.parser')
 
         book_model = BookingModel(
             start_station=self.select_station('啟程'),
@@ -87,11 +86,8 @@ class FirstPageFlow:
             t_str = str(t_int)
             print(f'{idx+1}. {t_str[:-2]}:{t_str[-2:]}')
 
-        selected_opt = int(
-            input(f'輸入選擇（預設：{default_value}）：')
-            or default_value
-        )
-        return AVAILABLE_TIME_TABLE[selected_opt]
+        selected_opt = int(input(f'輸入選擇（預設：{default_value}）：') or default_value)
+        return AVAILABLE_TIME_TABLE[selected_opt-1]
 
     def select_ticket_num(self, ticket_type: TicketType, default_ticket_num: int = 1) -> str:
         if ticket_num_str := {
@@ -114,7 +110,6 @@ class FirstPageFlow:
         print(f'選擇{ticket_type_name}票數（0~{MAX_TICKET_NUM}）（預設：{default_ticket_num}）')
         ticket_num = int(input() or default_ticket_num)
         return f'{ticket_num}{ticket_type.value}'
-
 
 
 def _parse_seat_prefer_value(page: BeautifulSoup) -> str:

@@ -24,12 +24,18 @@ class ParseAvailTrain:
         }
     }
 
-    discount_keyword = {
-        "irs_ind_ebH_zh_TW": "8折",
-        "irs_ind_eb2_zh_TW": "9折",
-        "irs_ind_ebX_zh_TW": "65折",
-        "25off": "75折",
-        "50off": "5折"
+    early_bird_discount = {
+        'name': 'p',
+        'attrs': {
+            'class': 'early-bird'
+        }
+    }
+
+    college_student_discount = {
+        'name': 'p',
+        'attrs': {
+            'class': 'student'
+        }
     }
 
     form_value = {

@@ -5,8 +5,7 @@ from tinydb import TinyDB, Query
 from tinydb.database import Document
 
 from thsr_ticket import MODULE_PATH
-from thsr_ticket.configs.web.param_schema import BookingModel
-from thsr_ticket.model.web.confirm_ticket import ConfirmTicket
+from thsr_ticket.configs.web.param_schema import BookingModel, ConfirmTicketModel
 
 
 class Record(NamedTuple):
@@ -27,10 +26,10 @@ class ParamDB:
         if not os.path.exists(db_dir):
             os.makedirs(db_dir)
 
-    def save(self, book_model: BookingModel, ticket: ConfirmTicket) -> None:
+    def save(self, book_model: BookingModel, ticket: ConfirmTicketModel) -> None:
         data = Record(
             ticket.personal_id,
-            ticket.phone,
+            ticket.phone_num,
             book_model.start_station,
             book_model.dest_station,
             book_model.outbound_time,

@@ -221,3 +221,35 @@ class BookingModel(BaseModel):
         if not re.match(r'\d+P', value):
             raise ValueError(f'Invalid college ticket num format: {value}')
         return value
+
+
+class Train(BaseModel):
+    id: int
+    depart: str
+    arrive: str
+    travel_time: str
+    discount_str: str
+    form_value: str
+
+
+class ConfirmTrainModel(BaseModel):
+    selected_train: str = Field(..., alias='TrainQueryDataViewPanel:TrainGroup')
+    form_mark: str = Field('', alias='BookingS2Form:hf:0')
+
+
+class ConfirmTicketModel(BaseModel):
+    personal_id: str = Field(..., alias='dummyId')
+    phone_num: str = Field(..., alias='dummyPhone')
+    member_radio: str = Field(
+        ...,
+        alias='TicketMemberSystemInputPanel:TakerMemberSystemDataView:memberSystemRadioGroup',
+        description='非高鐵會員, 企業會員 / 高鐵會員 / 企業會員統編',
+    )
+    form_mark: str = Field('', alias='BookingS3FormSP:hf:0')
+    id_input_radio: int = Field(0, alias='idInputRadio', description='0: 身份證字號 / 1: 護照號碼')
+    diff_over: int = Field(1, alias='diffOver')
+    email: str = Field('', alias='email')
+    agree: str = Field('on', alias='agree')
+    go_back_m: str = Field('', alias='isGoBackM')
+    back_home: str = Field('', alias='backHome')
+    tgo_error: int = Field(1, alias='TgoError')

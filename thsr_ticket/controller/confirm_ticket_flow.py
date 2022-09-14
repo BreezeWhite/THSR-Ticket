@@ -29,13 +29,13 @@ class ConfirmTicketFlow:
         return resp, ticket_model
 
     def set_personal_id(self) -> str:
-        if personal_id := self.record.personal_id:
+        if self.record and (personal_id := self.record.personal_id):
             return personal_id
 
         return input(f'輸入身分證字號：\n')
 
     def set_phone_num(self) -> str:
-        if phone_num := self.record.phone:
+        if self.record and (phone_num := self.record.phone):
             return phone_num
 
         if phone_num := input('輸入手機號碼（預設：""）：\n'):

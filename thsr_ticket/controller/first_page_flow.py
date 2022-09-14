@@ -48,10 +48,15 @@ class FirstPageFlow:
         return resp, book_model
 
     def select_station(self, travel_type: str, default_value: int = StationMapping.Taipei.value) -> int:
-        if station := {
-            '啟程': self.record.start_station,
-            '到達': self.record.dest_station,
-        }.get(travel_type):
+        if (
+            self.record
+            and (
+                station := {
+                    '啟程': self.record.start_station,
+                    '到達': self.record.dest_station,
+                }.get(travel_type)
+            )
+        ):
             return station
 
         print(f'選擇{travel_type}站：')
@@ -70,10 +75,12 @@ class FirstPageFlow:
         return input() or str(today)
 
     def select_time(self, time_type: str, default_value: int = 10) -> str:
-        if time_str := {
-            '啟程': self.record.outbound_time,
-            '回程': None,
-        }.get(time_type):
+        if self.record and (
+            time_str := {
+                '啟程': self.record.outbound_time,
+                '回程': None,
+            }.get(time_type)
+        ):
             return time_str
 
         print('選擇出發時間：')
@@ -90,13 +97,15 @@ class FirstPageFlow:
         return AVAILABLE_TIME_TABLE[selected_opt-1]
 
     def select_ticket_num(self, ticket_type: TicketType, default_ticket_num: int = 1) -> str:
-        if ticket_num_str := {
-            TicketType.ADULT: self.record.adult_num,
-            TicketType.CHILD: None,
-            TicketType.DISABELD: None,
-            TicketType.ELDER: None,
-            TicketType.COLLEGE: None,
-        }.get(ticket_type):
+        if self.record and (
+            ticket_num_str := {
+                TicketType.ADULT: self.record.adult_num,
+                TicketType.CHILD: None,
+                TicketType.DISABELD: None,
+                TicketType.ELDER: None,
+                TicketType.COLLEGE: None,
+            }.get(ticket_type)
+        ):
             return ticket_num_str
 
         ticket_type_name = {

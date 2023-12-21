@@ -19,6 +19,6 @@ class StationMapping(Enum):
 class TicketType(Enum):
     ADULT = 'F'
     CHILD = 'H'
-    DISABELD = 'W'
+    DISABLED = 'W'
     ELDER = 'E'
     COLLEGE = 'P'

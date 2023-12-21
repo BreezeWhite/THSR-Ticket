@@ -101,7 +101,7 @@ class FirstPageFlow:
             ticket_num_str := {
                 TicketType.ADULT: self.record.adult_num,
                 TicketType.CHILD: None,
-                TicketType.DISABELD: None,
+                TicketType.DISABLED: None,
                 TicketType.ELDER: None,
                 TicketType.COLLEGE: None,
             }.get(ticket_type)
@@ -111,7 +111,7 @@ class FirstPageFlow:
         ticket_type_name = {
             TicketType.ADULT: '成人',
             TicketType.CHILD: '孩童',
-            TicketType.DISABELD: '愛心',
+            TicketType.DISABLED: '愛心',
             TicketType.ELDER: '敬老',
             TicketType.COLLEGE: '大學生',
         }.get(ticket_type)

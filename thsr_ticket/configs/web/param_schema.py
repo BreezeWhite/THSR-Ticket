@@ -183,7 +183,7 @@ class BookingModel(BaseModel):
             raise ValueError(f'Failed to parse the date string: {value}')
 
         if target_date < date.today():
-            raise ValueError(f'Target date should not be ealier than today: {target_date}')
+            raise ValueError(f'Target date should not be earlier than today: {target_date}')
         return target_date.strftime('%Y/%m/%d')
 
     @validator('inbound_time', 'outbound_time')

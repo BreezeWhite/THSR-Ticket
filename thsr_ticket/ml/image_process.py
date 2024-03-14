@@ -104,7 +104,7 @@ def draw_contour(cnt, img_shape):
     return img
 
 def extract(img):
-    ''' 
+    '''
     Original from: https://github.com/uranus4ever/Captcha-Crack/blob/master/captcha_generator.py#L56
     extract the 4 codes from img
     :param img: cv2 imread BGR Image

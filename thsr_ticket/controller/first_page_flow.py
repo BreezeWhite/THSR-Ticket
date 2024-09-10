@@ -11,6 +11,7 @@ from thsr_ticket.model.db import Record
 from thsr_ticket.remote.http_request import HTTPRequest
 from thsr_ticket.configs.web.param_schema import BookingModel
 from thsr_ticket.configs.web.parse_html_element import BOOKING_PAGE
+from thsr_ticket.ml.run import run
 from thsr_ticket.configs.web.enums import StationMapping, TicketType
 from thsr_ticket.configs.common import (
     AVAILABLE_TIME_TABLE,
@@ -120,6 +121,26 @@ class FirstPageFlow:
         ticket_num = int(input() or default_ticket_num)
         return f'{ticket_num}{ticket_type.value}'
 
+def crop_and_resize(im):
+    #將下載的驗證碼統一大小縮圖
+    newWidth = 140
+    newHeight = 48
+    src_w,src_h = im.size
+    dst_scale = float(newHeight / newWidth)
+    src_scale = float(src_h / src_w)
+    if src_scale >= dst_scale:
+        width = src_w
+        height = int(width*dst_scale)
+        x = 0
+        y = (src_h - height) / 2
+    else:
+        height = src_h
+        width = int(height/dst_scale)
+        x = (src_w - width) / 2
+        y = 0
+    box = (x,y,width+x,height+y)
+    newIm = im.crop(box)
+    return newIm.resize((newWidth,newHeight),Image.Resampling.LANCZOS)
 
 def _parse_seat_prefer_value(page: BeautifulSoup) -> str:
     options = page.find(**BOOKING_PAGE["seat_prefer_radio"])
@@ -140,7 +161,9 @@ def _parse_search_by(page: BeautifulSoup) -> str:
 
 
 def _input_security_code(img_resp: bytes) -> str:
-    print('輸入驗證碼：')
-    image = Image.open(io.BytesIO(img_resp))
-    image.show()
-    return input()
+    # print('輸入驗證碼：')
+    img = Image.open(io.BytesIO(img_resp))
+    # img.show()
+    image = crop_and_resize(img)
+    captcha = run(image)
+    return captcha

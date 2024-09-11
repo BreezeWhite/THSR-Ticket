@@ -15,6 +15,8 @@ class Record(NamedTuple):
     dest_station: int = None
     outbound_time: str = None
     adult_num: str = None
+    start_date: str = None
+    outbound_delay_time: str = None
 
 
 class ParamDB:

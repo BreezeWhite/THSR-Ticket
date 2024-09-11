@@ -34,14 +34,12 @@ def run(img):
         cnn.eval()
         model = torch.load(conf_mdname, map_location='cpu')
         cnn.load_state_dict(model)
-    print(img_tensor.shape)
     img_tensor = img_tensor.view(1, 3, conf_w, conf_h)
     output = cnn(img_tensor)
     output = output.view(-1, conf_set)
     output = nn.functional.softmax(output, dim=1)
     output = torch.argmax(output, dim=1)
     output = output.view(-1, conf_len)[0]
-    print (output)
     label = ''.join([alphabet[i] for i in output.cpu().numpy()])
     print (label)
     return label

@@ -70,10 +70,11 @@ class FirstPageFlow:
         )
 
     def select_date(self, date_type: str) -> str:
-        today = date.today()
-        last_avail_date = today + timedelta(days=DAYS_BEFORE_BOOKING_AVAILABLE)
-        print(f'選擇{date_type}日期（{today}~{last_avail_date}）（預設為今日）：')
-        return input() or str(today)
+        # today = date.today()
+        # last_avail_date = today + timedelta(days=DAYS_BEFORE_BOOKING_AVAILABLE)
+        # print(f'選擇{date_type}日期（{today}~{last_avail_date}）（預設為今日）：')
+        # return input() or str(today)
+        return self.record.start_date
 
     def select_time(self, time_type: str, default_value: int = 10) -> str:
         if self.record and (

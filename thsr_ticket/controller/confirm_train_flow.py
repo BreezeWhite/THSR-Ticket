@@ -20,7 +20,7 @@ class ConfirmTrainFlow:
         trains = AvailTrains().parse(self.book_resp.content)
         if not trains:
             raise ValueError('No available trains!')
-        elif trains[0].depart.startswith(self.record.outbound_delay_time):
+        elif int(trains[0].depart.split(':')[0])>=int(self.record.outbound_delay_time):
             raise ValueError('too late to go home')
 
         confirm_model = ConfirmTrainModel(

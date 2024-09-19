@@ -9,5 +9,6 @@ dist/
 *.egg-info/
 
 *.png
+!station.png
 test.py
 *.code-workspace

@@ -29,16 +29,18 @@ cp history_example.json thsr_ticket/.db/history.json
     
 }
 ```
-```
-adult_num: 預定票數，只支援成人票，只需修改數字並不要動F
-dest_station: 目標車站，數字表參考圖一
-outbound_time: 出發時間P為下午，A為上午
-personal_id: 身分證字號
-phone: 電話 optional
-start_station: 起始車站，數字表參考圖一
-start_date: 出發日期
-outbound_delay_time: 可接受最晚時間的票e.g. 例子為不會搶到21點以後的票
-```
+
+- adult_num: 預定票數，只支援成人票，只需修改數字並不要動F
+- dest_station: 目標車站，數字表參考[圖一](#圖一)
+- outbound_time: 出發時間P為下午，A為上午
+- personal_id: 身分證字號
+- phone: 電話 optional
+- start_station: 起始車站，數字表參考[圖一](#圖一)
+- start_date: 出發日期
+- outbound_delay_time: 可接受最晚時間的票e.g. 例子為不會搶到21點以後的票
+
+#### 圖一
+![圖一](station.png "圖一")
 
 ## 執行
 

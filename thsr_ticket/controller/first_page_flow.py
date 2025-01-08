@@ -25,12 +25,25 @@ class FirstPageFlow:
         self.client = client
         self.record = record
 
-    def run(self) -> Tuple[Response, BookingModel]:
+    def run(self) -> Tuple[Response, BookingModel, Record]:
         # First page. Booking options
         print('請稍等...')
         book_page = self.client.request_booking_page().content
         img_resp = self.client.request_security_code_img(book_page).content
         page = BeautifulSoup(book_page, features='html.parser')
+
+        # 如果沒有使用歷史紀錄，先詢問必要資訊
+        if not self.record:
+            outbound_delay_time = input('輸入最晚可接受時間（24小時制，預設：23）：') or "23"
+            personal_id = input('輸入身分證字號：')
+            phone = input('輸入手機號碼（可選）：') or ""
+            today = date.today()
+            self.record = Record(
+                outbound_delay_time=outbound_delay_time,
+                personal_id=personal_id,
+                phone=phone,
+                outbound_date=str(today)
+            )
 
         book_model = BookingModel(
             start_station=self.select_station('啟程'),
@@ -43,10 +56,24 @@ class FirstPageFlow:
             search_by=_parse_search_by(page),
             security_code=_input_security_code(img_resp),
         )
+
+        # 更新 record 的其他欄位
+        if not self.record.start_station:
+            self.record = Record(
+                outbound_delay_time=self.record.outbound_delay_time,
+                personal_id=self.record.personal_id,
+                phone=self.record.phone,
+                start_station=book_model.start_station,
+                dest_station=book_model.dest_station,
+                outbound_time=book_model.outbound_time,
+                adult_num=book_model.adult_ticket_num,
+                outbound_date=book_model.outbound_date
+            )
+
         json_params = book_model.json(by_alias=True)
         dict_params = json.loads(json_params)
         resp = self.client.submit_booking_form(dict_params)
-        return resp, book_model
+        return resp, book_model, self.record
 
     def select_station(self, travel_type: str, default_value: int = StationMapping.Taipei.value) -> int:
         if (
@@ -70,11 +97,13 @@ class FirstPageFlow:
         )
 
     def select_date(self, date_type: str) -> str:
-        # today = date.today()
-        # last_avail_date = today + timedelta(days=DAYS_BEFORE_BOOKING_AVAILABLE)
-        # print(f'選擇{date_type}日期（{today}~{last_avail_date}）（預設為今日）：')
-        # return input() or str(today)
-        return self.record.start_date
+        if self.record and self.record.outbound_date:
+            return self.record.outbound_date
+
+        today = date.today()
+        last_avail_date = today + timedelta(days=DAYS_BEFORE_BOOKING_AVAILABLE)
+        print(f'選擇{date_type}日期（{today}~{last_avail_date}）（預設為今日）：')
+        return input() or str(today)
 
     def select_time(self, time_type: str, default_value: int = 10) -> str:
         if self.record and (

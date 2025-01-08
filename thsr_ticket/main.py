@@ -15,16 +15,9 @@ def main():
 
 
 if __name__ == "__main__":
-    #client = EndpointClient()
-    #resp = client.get_trains_by_date("2020-01-25")
-    #train = Train().from_json(resp[0])
     status = ''
     while 1:
-        try:
-            if status == 'finish':
-                break
-            status = main()
-        except Exception as e:
-            print(e)
-            time.sleep(random.randint(5, 10))
-            pass
+        if status == 'finish':
+            break
+        status = main()
+        time.sleep(random.randint(5, 10))

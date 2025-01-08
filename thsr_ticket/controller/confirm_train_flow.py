@@ -20,8 +20,11 @@ class ConfirmTrainFlow:
         trains = AvailTrains().parse(self.book_resp.content)
         if not trains:
             raise ValueError('No available trains!')
-        elif int(trains[0].depart.split(':')[0])>=int(self.record.outbound_delay_time):
-            raise ValueError('too late to go home')
+        
+        # 檢查第一班車是否太晚
+        first_train_hour = int(trains[0].depart.split(':')[0])
+        if first_train_hour >= int(self.record.outbound_delay_time):
+            raise ValueError(f'太晚了！第一班車 {trains[0].depart} 已經超過限制時間 {self.record.outbound_delay_time}點')
 
         confirm_model = ConfirmTrainModel(
             selected_train=self.select_available_trains(trains),
@@ -32,11 +35,4 @@ class ConfirmTrainFlow:
         return resp, confirm_model
 
     def select_available_trains(self, trains: List[Train], default_value: int = 1) -> Train:
-        # for idx, train in enumerate(trains, 1):
-        #     print(
-        #         f'{idx}. {train.id:>4} {train.depart:>3}~{train.arrive} {train.travel_time:>3} '
-        #         f'{train.discount_str}'
-        #     )
-        # selection = int(input(f'輸入選擇（預設：{default_value}）：') or default_value)
-        # return trains[selection-1].form_value
         return trains[0].form_value

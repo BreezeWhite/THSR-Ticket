@@ -37,12 +37,11 @@ class FirstPageFlow:
             outbound_delay_time = input('輸入最晚可接受時間（24小時制，預設：23）：') or "23"
             personal_id = input('輸入身分證字號：')
             phone = input('輸入手機號碼（可選）：') or ""
-            today = date.today()
+            
             self.record = Record(
                 outbound_delay_time=outbound_delay_time,
                 personal_id=personal_id,
                 phone=phone,
-                outbound_date=str(today)
             )
 
         book_model = BookingModel(

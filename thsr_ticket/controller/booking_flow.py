@@ -47,7 +47,11 @@ class BookingFlow:
         book = ShowBookingResult()
         book.show(result_model)
         print("\n請使用官方提供的管道完成後續付款以及取票!!")
-        status = True
+        
+        # Save booking history
+        self.db.save(BookingFlow.record, ticket_model)
+        
+        status = 'Finish'
         return status
 
     def show_history(self) -> None:

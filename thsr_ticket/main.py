@@ -13,14 +13,10 @@ def signal_handler(sig, frame):
     running = False
 
 def main():
-    flow = BookingFlow()
-    status = flow.run()
-    return status
-
-if __name__ == "__main__":
     print("Press Ctrl+C to exit the program.")
     
-    status = False
+    flow = BookingFlow()
+    global running
     running = True
 
     # Register the signal handler
@@ -28,9 +24,12 @@ if __name__ == "__main__":
 
     while running:
         try:
-            if status:
+            status = flow.run()
+            if status == 'Finish':
                 break
-            status = main()
             time.sleep(random.randint(3, 5))
         except Exception as e:
             print(e)
+
+if __name__ == "__main__":
+    main()

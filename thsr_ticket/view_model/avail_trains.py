@@ -1,4 +1,4 @@
-from typing import List, Mapping
+from typing import List
 from bs4.element import Tag
 
 from thsr_ticket.view_model.abstract_view_model import AbstractViewModel

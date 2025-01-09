@@ -8,7 +8,7 @@ from thsr_ticket.view_model.booking_result import BookingResult
 from thsr_ticket.view.web.show_error_msg import ShowErrorMsg
 from thsr_ticket.view.web.show_booking_result import ShowBookingResult
 from thsr_ticket.view.common import history_info
-from thsr_ticket.model.db import ParamDB, Record
+from thsr_ticket.model.db import ParamDB
 from thsr_ticket.remote.http_request import HTTPRequest
 
 
@@ -47,7 +47,7 @@ class BookingFlow:
         book = ShowBookingResult()
         book.show(result_model)
         print("\n請使用官方提供的管道完成後續付款以及取票!!")
-        status = "finish"
+        status = True
         return status
 
     def show_history(self) -> None:

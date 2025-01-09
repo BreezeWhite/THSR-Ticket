@@ -1,4 +1,4 @@
-from typing import List, Mapping, Any
+from typing import List
 from collections import namedtuple
 
 from bs4 import BeautifulSoup

@@ -1,11 +1,7 @@
 import torch
 import torch.nn as nn
 from ml.Testmodel import CNN
-from ml.datasets import CaptchaData
-from torchvision.transforms import Compose, ToTensor
-import pandas as pd
-from PIL import Image
-import matplotlib.pyplot as plt
+from torchvision.transforms import ToTensor
 import configs.model_config as model_config #模型設定參數py, 下面有code
  
 #讀取本次模型的相關設定參數
@@ -19,8 +15,6 @@ conf_mdname=conf['conf_mdname']
  
  
 def run(img):
-    img_li = list()
-    label_li = list()
     
     trans = ToTensor()
     img_tensor = trans(img)

@@ -4,7 +4,6 @@ import time
 from typing import List, Union
 
 import numpy as np  # type: ignore
-import matplotlib.pyplot as plt  # type: ignore
 from PIL import Image, ImageFont
 from PIL.ImageDraw import Draw  # type: ignore
 from sklearn.linear_model import Ridge  # type: ignore

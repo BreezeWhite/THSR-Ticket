@@ -45,11 +45,11 @@ class FirstPageFlow:
             )
 
         book_model = BookingModel(
-            start_station=self.select_station('啟程'),
-            dest_station=self.select_station('到達', default_value=StationMapping.Zuouing.value),
-            outbound_date=self.select_date('出發'),
-            outbound_time=self.select_time('啟程'),
-            adult_ticket_num=self.select_ticket_num(TicketType.ADULT),
+            start_station=self.record.start_station or self.select_station('啟程'),
+            dest_station=self.record.dest_station or self.select_station('到達', default_value=StationMapping.Zuouing.value),
+            outbound_date=self.record.outbound_date or self.select_date('出發'),
+            outbound_time=self.record.outbound_time or self.select_time('啟程'),
+            adult_ticket_num=self.record.adult_num or self.select_ticket_num(TicketType.ADULT),
             seat_prefer=_parse_seat_prefer_value(page),
             types_of_trip=_parse_types_of_trip_value(page),
             search_by=_parse_search_by(page),

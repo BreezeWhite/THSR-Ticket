@@ -6,6 +6,7 @@ from tinydb.database import Document
 
 from thsr_ticket import MODULE_PATH
 from thsr_ticket.configs.web.param_schema import ConfirmTicketModel
+from thsr_ticket.view.history_view import history_info
 
 
 class Record(NamedTuple):
@@ -54,4 +55,19 @@ class ParamDB:
             comp = [h[k] for k in data.keys() if h[k] == data[k]]
             if len(comp) == len(data):
                 return idx
+        return None
+
+    def get_history_record(self) -> Record:
+        """獲取用戶選擇的歷史紀錄
+        
+        Returns:
+            Record: 選擇的歷史紀錄，如果沒有選擇則返回 None
+        """
+        hist = self.get_history()
+        if not hist:
+            return None
+            
+        h_idx = history_info(hist)
+        if h_idx is not None:
+            return hist[h_idx]
         return None

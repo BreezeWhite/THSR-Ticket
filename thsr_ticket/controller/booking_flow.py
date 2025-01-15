@@ -7,25 +7,24 @@ from thsr_ticket.view_model.error_feedback import ErrorFeedback
 from thsr_ticket.view_model.booking_result import BookingResult
 from thsr_ticket.view.web.show_error_msg import ShowErrorMsg
 from thsr_ticket.view.web.show_booking_result import ShowBookingResult
-from thsr_ticket.view.common import history_info
 from thsr_ticket.model.db import ParamDB
 from thsr_ticket.remote.http_request import HTTPRequest
 
 
 class BookingFlow:
-    def __init__(self) -> None:
+    def __init__(self, record=None) -> None:
         self.client = HTTPRequest()
         self.db = ParamDB()
         self.error_feedback = ErrorFeedback()
         self.show_error_msg = ShowErrorMsg()
-        self.record = None
+        self.record = record
 
     def run(self) -> Response:
         # First page. Booking options
         book_resp, book_model, updated_record = FirstPageFlow(client=self.client, record=self.record).run()
+        self.record = updated_record
         if self.show_error(book_resp.content):
             return book_resp
-        self.record = updated_record
 
         # Second page. Train confirmation
         train_resp, train_model = ConfirmTrainFlow(self.client, book_resp, record=self.record).run()
@@ -48,18 +47,6 @@ class BookingFlow:
        
         status = 'Finish'
         return status
-
-    def show_history(self) -> None:
-        hist = self.db.get_history()
-        if not hist:
-            return
-        h_idx = history_info(hist)
-        if h_idx is not None:
-            self.use_history = True
-            self.record = hist[h_idx]
-        else:
-            self.use_history = False
-            self.record = None
 
     def show_error(self, html: bytes) -> bool:
         errors = self.error_feedback.parse(html)

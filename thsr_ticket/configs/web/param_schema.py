@@ -240,10 +240,18 @@ class ConfirmTrainModel(BaseModel):
 class ConfirmTicketModel(BaseModel):
     personal_id: str = Field(..., alias='dummyId')
     phone_num: str = Field(..., alias='dummyPhone')
+    passenger_id: str = Field(
+        ...,
+        alias='TicketPassengerInfoInputPanel:passengerDataView:0:passengerDataView2:passengerDataIdNumber',
+    )
     member_radio: str = Field(
         ...,
         alias='TicketMemberSystemInputPanel:TakerMemberSystemDataView:memberSystemRadioGroup',
         description='非高鐵會員, 企業會員 / 高鐵會員 / 企業會員統編',
+    )
+    member_id: str = Field(
+        ...,
+        alias='TicketMemberSystemInputPanel:TakerMemberSystemDataView:memberSystemRadioGroup:memberShipNumber',
     )
     form_mark: str = Field('', alias='BookingS3FormSP:hf:0')
     id_input_radio: int = Field(0, alias='idInputRadio', description='0: 身份證字號 / 1: 護照號碼')
@@ -253,3 +261,13 @@ class ConfirmTicketModel(BaseModel):
     go_back_m: str = Field('', alias='isGoBackM')
     back_home: str = Field('', alias='backHome')
     tgo_error: int = Field(1, alias='TgoError')
+
+    # pending fields, not used in current implementation
+    '''
+    is_promotion: int = Field(1, alias='isSPromotion')
+    is_early_bird_register: int = Field(0, alias='isEarlyBirdRegister')
+    passenger_count: int = Field(1, alias='passengerCount')
+    member_act: int = Field('', alias='memberAct')
+    is_must_be_card: int = Field(1, alias='isMustBeCard')
+    id_input_radio: int = Field(0, alias='idInputRadio')
+    '''

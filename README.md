@@ -4,7 +4,7 @@
 
 此程式提供另一種輕便的方式訂購高鐵車票，操作介面為命令列介面。相較於使用網頁訂購，本程式因為省卻了渲染網頁介面的時間，只保留最核心的訂購功能，因此能省下大量等待的時間。
 
-**(2025/05/12 update)** 另有 Rust 版本提供執行檔，可以參考 [thsr-ticket-rs](https://github.com/BreezeWhite/thsr-ticket-rs)
+**(2025/05/12 update)** 另有 Rust 新版本提供執行檔、早鳥票預訂、會員購票等新功能，可以參考 [thsr-ticket-rs](https://github.com/BreezeWhite/thsr-ticket-rs)
 
 ## 執行
 
